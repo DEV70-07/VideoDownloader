@@ -15,9 +15,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import com.dev.videodownloader.ui.theme.VideoDownloaderTheme
 
 class MainActivity : ComponentActivity() {
@@ -37,9 +34,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun AddText() {
-    Text("Olá?")
 }
