@@ -17,6 +17,7 @@ import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.graphics.scale
 
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -37,15 +38,20 @@ fun BrowserScreen(
                 settings.javaScriptEnabled = true
                 settings.domStorageEnabled = true
                 webViewClient = object : WebViewClient() {
-                    override fun onPageFinished(view: WebView?, url: String?) {
-                        super.onPageFinished(view, url)
+                    override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                        super.onPageStarted(view, url, favicon)
                         if (url != null){
                             urlUpdate(url)
                         }
+                    }
+                    override fun onPageFinished(view: WebView?, url: String?) {
+                        super.onPageFinished(view, url)
+
                         view?.evaluateJavascript(
                             "console.log(\"Yeah\")", null
                         )
                     }
+
                 }
 
                 webChromeClient = object : WebChromeClient() {
@@ -66,7 +72,7 @@ fun BrowserScreen(
                     override fun onReceivedIcon(view: WebView?, icon: Bitmap?) {
                         super.onReceivedIcon(view, icon)
                         if (icon != null) {
-                            iconUpdate(icon)
+                            iconUpdate(icon.scale(64, 64))
                         }
                     }
 

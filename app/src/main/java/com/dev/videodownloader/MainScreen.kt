@@ -70,6 +70,7 @@ fun MainScreen(){
     val suggestions = remember { mutableStateListOf<SearchSuggestion>() }
     val focusManager = LocalFocusManager.current
     var pageIcon by remember { mutableStateOf<Bitmap?>(null) }
+    var suggestionPending by remember { mutableStateOf(false) }
 
     val screens = listOf<@Composable (paddingValues: PaddingValues) -> Unit>(
         { paddingValues ->
@@ -80,17 +81,44 @@ fun MainScreen(){
                     pageLoadProgress = it
                 },
                 {
+                    if (suggestionPending){
+                        var actualSuggestion = suggestions.find { suggestion ->
+                            suggestion.url == it
+                        }
+
+                        if (actualSuggestion == null) actualSuggestion = SearchSuggestion(it)
+
+                        suggestions.remove(actualSuggestion)
+
+                        suggestions.add(0, actualSuggestion)
+
+                        if (suggestions.size > 10) {
+                            suggestions.removeAt(suggestions.lastIndex)
+                        }
+                        suggestionPending = false
+                    }
+
                     browserUrl = it
+
                 },
                 {
-                    val actualSuggestion = suggestions.find { suggestion -> suggestion.url == browserUrl }
-                    if (actualSuggestion != null){
-                        actualSuggestion.title = it
+                    val associatedSuggestion = suggestions.find { suggestion -> suggestion.url == browserUrl }
+
+                    if (associatedSuggestion != null){
+                        associatedSuggestion.title = it
+
                     }
 
                     browserPageTitle = it
                 },
                 {
+                    val associatedSuggestion = suggestions.find { suggestion -> suggestion.url == browserUrl }
+                    Log.d("Browser.Debug", "Received Icon associatedSuggestion is $associatedSuggestion, browserUrl is $browserUrl")
+                    if (associatedSuggestion != null){
+                        associatedSuggestion.icon = it
+                        Log.d("Browser.Debug", "Icon Associated with ${associatedSuggestion.url}")
+                    }
+
                     pageIcon = it
                 },
                 {
@@ -111,20 +139,9 @@ fun MainScreen(){
                 pageLoadProgress,
                 suggestions
             ) {
-                Log.d("Browser.Debug", "$it$ is a valid url? {URLUtil.isValidUrl(it)}")
+                Log.d("Browser.Debug", "$it is a valid url? ${URLUtil.isValidUrl(it)}")
                 val textEnhanced = URLUtil.guessUrl(it).lowercase()
-                var actualSuggestion = suggestions.find { suggestion ->
-                    suggestion.url == textEnhanced
-                }
-
-                if (actualSuggestion == null) actualSuggestion = SearchSuggestion(textEnhanced)
-
-                suggestions.remove(actualSuggestion)
-
-                suggestions.add(0, actualSuggestion)
-                if (suggestions.size > 10) {
-                    suggestions.removeAt(suggestions.lastIndex)
-                }
+                suggestionPending = true
 
                 focusManager.clearFocus()
                 browserUrl = textEnhanced

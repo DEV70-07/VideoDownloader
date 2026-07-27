@@ -10,11 +10,14 @@
 package com.dev.videodownloader.components
 
 import android.graphics.Bitmap
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,6 +32,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dev.videodownloader.ui.theme.rounded
@@ -59,6 +65,28 @@ fun SearchSuggestionItem(
             .height(IntrinsicSize.Min),
 
     ) {
+        data.icon?.let {
+            Image(
+                it.asImageBitmap(),
+                "Suggestion Icon",
+                Modifier
+                    .layout {
+                        measurable, constraints ->
+                        val placeable = measurable.measure(constraints)
+
+                        layout(width = placeable.width, 0) {
+                            placeable.placeRelative(0,0)
+                        }
+                    }
+                    .padding(end = 10.dp)
+                    .rounded(20.dp)
+                    .background(Color(0xff111111))
+                    .padding(10.dp)
+                    .fillMaxHeight()
+                    .aspectRatio(1f),
+                contentScale = ContentScale.Fit,
+            )
+        }
         Column(Modifier
             .fillMaxHeight()
             .wrapContentHeight(align = Alignment.CenterVertically)
@@ -66,7 +94,7 @@ fun SearchSuggestionItem(
         ) {
 
             data.title?.let {
-                Text(it, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(it, maxLines = 1, modifier = Modifier.basicMarquee())
             }
 
             Text(
