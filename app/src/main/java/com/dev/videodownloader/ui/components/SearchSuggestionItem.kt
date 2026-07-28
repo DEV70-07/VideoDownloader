@@ -7,9 +7,8 @@
  * the Free Software Foundation, either version 3 of the License.
  */
 
-package com.dev.videodownloader.components
+package com.dev.videodownloader.ui.components
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
@@ -37,14 +36,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.dev.videodownloader.model.SearchSuggestion
 import com.dev.videodownloader.ui.theme.rounded
 
 
-data class SearchSuggestion(
-    val url: String,
-    var title: String? = null,
-    var icon: Bitmap? = null
-)
 @Composable
 fun SearchSuggestionItem(
     data: SearchSuggestion,

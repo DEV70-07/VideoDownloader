@@ -7,7 +7,7 @@
  * the Free Software Foundation, either version 3 of the License.
  */
 
-package com.dev.videodownloader.components
+package com.dev.videodownloader.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

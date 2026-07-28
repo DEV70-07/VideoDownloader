@@ -10,7 +10,6 @@
 package com.dev.videodownloader
 
 import android.graphics.Bitmap
-import android.util.Log
 import android.webkit.URLUtil
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -50,13 +49,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
-import com.dev.videodownloader.components.SearchSuggestion
-import com.dev.videodownloader.components.TextIconButton
-import com.dev.videodownloader.ui.browser.BrowserScreen
-import com.dev.videodownloader.ui.browser.BrowserTopBar
-import com.dev.videodownloader.ui.downloadsscreen.DownloadsScreen
+import com.dev.videodownloader.model.SearchSuggestion
+import com.dev.videodownloader.ui.components.TextIconButton
+import com.dev.videodownloader.ui.screens.BrowserScreen
+import com.dev.videodownloader.ui.components.BrowserTopBar
+import com.dev.videodownloader.ui.screens.DownloadsScreen
 import com.dev.videodownloader.ui.theme.screenModifier
-import com.dev.videodownloader.ui.queuescreen.QueueScreen
+import com.dev.videodownloader.ui.screens.QueueScreen
+import java.net.URLEncoder
 
 
 @Composable
@@ -113,10 +113,8 @@ fun MainScreen(){
                 },
                 {
                     val associatedSuggestion = suggestions.find { suggestion -> suggestion.url == browserUrl }
-                    Log.d("Browser.Debug", "Received Icon associatedSuggestion is $associatedSuggestion, browserUrl is $browserUrl")
                     if (associatedSuggestion != null){
                         associatedSuggestion.icon = it
-                        Log.d("Browser.Debug", "Icon Associated with ${associatedSuggestion.url}")
                     }
 
                     pageIcon = it
@@ -139,8 +137,8 @@ fun MainScreen(){
                 pageLoadProgress,
                 suggestions
             ) {
-                Log.d("Browser.Debug", "$it is a valid url? ${URLUtil.isValidUrl(it)}")
-                val textEnhanced = URLUtil.guessUrl(it).lowercase()
+                val textEnhanced = if (" " in it) "https://www.google.com/search?q=${URLEncoder.encode(it, "UTF-8")}" else URLUtil.guessUrl(it)
+
                 suggestionPending = true
 
                 focusManager.clearFocus()

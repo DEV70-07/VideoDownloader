@@ -7,7 +7,7 @@
  * the Free Software Foundation, either version 3 of the License.
  */
 
-package com.dev.videodownloader.ui.browser
+package com.dev.videodownloader.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -53,8 +53,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.dev.videodownloader.components.SearchSuggestion
-import com.dev.videodownloader.components.SearchSuggestionItem
+import com.dev.videodownloader.model.SearchSuggestion
 import com.dev.videodownloader.ui.theme.centerComposable
 
 @Composable
@@ -144,7 +143,7 @@ fun BrowserSearchBar(
                 },
 
             lineLimits = TextFieldLineLimits.SingleLine,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Go),
             onKeyboardAction = {
                 setUrlFun(state.text.toString())
             }

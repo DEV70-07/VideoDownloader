@@ -7,7 +7,7 @@
  * the Free Software Foundation, either version 3 of the License.
  */
 
-package com.dev.videodownloader.ui.browser
+package com.dev.videodownloader.ui.screens
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap

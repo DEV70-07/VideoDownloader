@@ -7,7 +7,7 @@
  * the Free Software Foundation, either version 3 of the License.
  */
 
-package com.dev.videodownloader.ui.queuescreen
+package com.dev.videodownloader.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
@@ -16,8 +16,9 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun QueueScreen(modifier: Modifier) {
+fun DownloadsScreen(modifier: Modifier){
     Column(modifier) {
-        Text("Queue Screen Coming Soon")
+        Text("Download Screen Coming Soon")
     }
+
 }
