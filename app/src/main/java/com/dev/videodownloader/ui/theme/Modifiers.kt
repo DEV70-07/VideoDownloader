@@ -9,7 +9,9 @@
 
 package com.dev.videodownloader.ui.theme
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -39,6 +42,20 @@ fun Modifier.rounded(
     clip(RoundedCornerShape(topStart, topEnd, bottomEnd, bottomStart))
 
 @Composable
+fun Modifier.rounded(
+    topStartPercent: Int,
+    topEndPercent: Int,
+    bottomEndPercent: Int,
+    bottomStartPercent: Int
+) =
+    clip(RoundedCornerShape(topStartPercent, topEndPercent, bottomEndPercent, bottomStartPercent))
+
+@Composable
+fun Modifier.rounded(percent: Int) =
+    rounded(percent, percent, percent, percent)
+
+
+@Composable
 fun Modifier.rounded(size: Dp) =
     rounded(size, size, size, size)
 
@@ -47,4 +64,14 @@ fun Modifier.centerComposable(startPadding: Dp = 0.dp, endPadding: Dp = 0.dp) =
     fillMaxHeight()
         .padding(start = startPadding, end = endPadding)
         .wrapContentHeight(align = Alignment.CenterVertically)
+
+@Composable
+fun Modifier.iconForm(backgroundColor: Color, borderRadius: Dp = 20.dp, externalPadding: Dp = 10.dp, internalPadding: Dp = 10.dp) =
+    padding(end = externalPadding)
+        .rounded(borderRadius)
+        .background(backgroundColor)
+        .padding(internalPadding)
+        .aspectRatio(1f)
+        .fillMaxHeight()
+
 

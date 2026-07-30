@@ -49,6 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import com.dev.videodownloader.model.SearchEngines
 import com.dev.videodownloader.model.SearchSuggestion
 import com.dev.videodownloader.ui.components.TextIconButton
 import com.dev.videodownloader.ui.screens.BrowserScreen
@@ -64,13 +65,17 @@ fun MainScreen(){
     var actualScreen by remember { mutableIntStateOf(0) }
     var isTopBarVisible by remember { mutableStateOf(true) }
     val statusBarHeight = WindowInsets.statusBars.getTop(LocalDensity.current)
-    var browserUrl by remember { mutableStateOf("https://google.com") }
-    var browserPageTitle by remember { mutableStateOf("Google") }
-    var pageLoadProgress by remember { mutableIntStateOf(0) }
+
     val suggestions = remember { mutableStateListOf<SearchSuggestion>() }
     val focusManager = LocalFocusManager.current
     var pageIcon by remember { mutableStateOf<Bitmap?>(null) }
     var suggestionPending by remember { mutableStateOf(false) }
+
+    var pageLoadProgress by remember { mutableIntStateOf(0) }
+
+    var actualSearchEngine by remember { mutableStateOf(SearchEngines.DUCKDUCKGO) }
+    var browserUrl by remember { mutableStateOf(actualSearchEngine.homeUrl) }
+    var browserPageTitle by remember { mutableStateOf(actualSearchEngine.displayName) }
 
     val screens = listOf<@Composable (paddingValues: PaddingValues) -> Unit>(
         { paddingValues ->
@@ -133,11 +138,13 @@ fun MainScreen(){
             BrowserTopBar(
                 modifier,
                 browserUrl,
+                actualSearchEngine.homeUrl,
+                actualSearchEngine.icon,
                 browserPageTitle,
                 pageLoadProgress,
                 suggestions
             ) {
-                val textEnhanced = if (" " in it) "https://www.google.com/search?q=${URLEncoder.encode(it, "UTF-8")}" else URLUtil.guessUrl(it)
+                val textEnhanced = if (" " in it) "${actualSearchEngine.searchUrl}${URLEncoder.encode(it, "UTF-8")}" else URLUtil.guessUrl(it)
 
                 suggestionPending = true
 

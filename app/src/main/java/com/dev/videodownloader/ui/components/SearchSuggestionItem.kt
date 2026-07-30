@@ -16,7 +16,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,6 +36,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.dev.videodownloader.model.SearchSuggestion
+import com.dev.videodownloader.ui.theme.iconForm
 import com.dev.videodownloader.ui.theme.rounded
 
 
@@ -73,12 +73,7 @@ fun SearchSuggestionItem(
                             placeable.placeRelative(0,0)
                         }
                     }
-                    .padding(end = 10.dp)
-                    .rounded(20.dp)
-                    .background(Color(0xff111111))
-                    .padding(10.dp)
-                    .fillMaxHeight()
-                    .aspectRatio(1f),
+                    .iconForm(Color(0xff111111)),
                 contentScale = ContentScale.Fit,
             )
         }
